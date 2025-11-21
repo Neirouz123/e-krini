@@ -3,17 +3,25 @@ import mongoose from 'mongoose';
 
 /**
  * Simple integration test to verify database connection
- * Run with: node src/tests/databaseconnections/integration.test.js
+ * Run with: npm test
  */
 
-async function testDatabaseConnection() {
-  console.log('🧪 Testing database connection...');
-
-  try {
-    // Connect to database
+describe('Database Connection Tests', () => {
+  beforeAll(async () => {
+    // Connect to database before tests
     await connectDB();
+  });
+
+  afterAll(async () => {
+    // Close connection after tests
+    await mongoose.connection.close();
+  });
+
+  test('should establish database connection', async () => {
+    console.log('🧪 Testing database connection...');
 
     // Test basic database operations
+    expect(mongoose.connection.readyState).toBe(1); // Connected
     console.log('✅ Connection established');
 
     // Get database info
@@ -26,6 +34,13 @@ async function testDatabaseConnection() {
     console.log(`   - Documents: ${stats.objects}`);
     console.log(`   - Data Size: ${stats.dataSize} bytes`);
 
+    expect(db.databaseName).toBeDefined();
+    expect(stats.collections).toBeGreaterThanOrEqual(0);
+  });
+
+  test('should perform basic CRUD operations', async () => {
+    const db = mongoose.connection.db;
+
     // Test creating a simple collection and document
     const testCollection = db.collection('test_connection');
     const testDoc = { message: 'Database connection test', timestamp: new Date() };
@@ -34,25 +49,12 @@ async function testDatabaseConnection() {
     console.log('✅ Insert operation successful');
     console.log(`   - Inserted ID: ${result.insertedId}`);
 
+    expect(result.insertedId).toBeDefined();
+
     // Clean up test data
-    await testCollection.deleteOne({ _id: result.insertedId });
+    const deleteResult = await testCollection.deleteOne({ _id: result.insertedId });
     console.log('✅ Cleanup successful');
 
-    console.log('🎉 All database tests passed!');
-
-  } catch (error) {
-    console.error('❌ Database test failed:', error.message);
-    process.exit(1);
-  } finally {
-    // Close connection
-    await mongoose.connection.close();
-    console.log('🔌 Database connection closed');
-  }
-}
-
-// Run the test if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  testDatabaseConnection();
-}
-
-export default testDatabaseConnection;
+    expect(deleteResult.deletedCount).toBe(1);
+  });
+});
