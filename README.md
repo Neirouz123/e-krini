@@ -36,7 +36,7 @@ E-Krini follows a **microservices architecture** with the following components:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Neirouz123/e-krini.git
+git clone https://github.com/Neirouz123/e-krini
 cd e-krini
 ```
 
@@ -376,7 +376,7 @@ This project is licensed under the MIT License.
 ## 👥 Team
 
 - **Lead Developer**: Neirouz Adili
-- **Repository**: [github.com/Neirouz123/e-krini](https://github.com/Neirouz123/e-krini)
+- **Repository**: (https://github.com/Neirouz123/e-krini)
 
 ## 📞 Support
 
