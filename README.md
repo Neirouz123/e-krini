@@ -376,7 +376,7 @@ This project is licensed under the MIT License.
 ## 👥 Team
 
 - **Lead Developer**: Neirouz Adili
-- **Repository**: (https://github.com/Neirouz123/e-krini)
+- **Repository**: [https://github.com/Neirouz123/e-krini](https://github.com/Neirouz123/e-krini)
 
 ## 📞 Support
 
